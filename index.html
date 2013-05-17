@@ -1,0 +1,130 @@
+<html>
+<head>
+	<title>Trombone</title>
+	<link href='http://fonts.googleapis.com/css?family=Italianno' rel='stylesheet' type='text/css'>
+	<style>
+		html, body
+		{
+			margin: 0;
+			padding: 0;
+		}
+		.instructions
+		{
+			color: #444;
+			font-family: 'Italianno', cursive;
+			font-size: 48px;
+			margin: -217px 0 0 0;
+			left: 50px;
+			position: absolute;
+			text-align: left;
+			top: 50%;
+			z-index: 2;
+		}
+
+		.trombone
+		{
+			background: url(img/trombone-middle.png) repeat-x 0 0;
+			height: 334px;
+			overflow: hidden;
+			left: 50px;
+			margin: -167px auto 0 auto;
+			min-width: 800px;
+			position: absolute;
+			top: 50%;
+			width: 90%;
+		}
+
+		.trombone .start
+		{
+			background: url(img/trombone-start.png) no-repeat 0 0;
+			height: 334px;
+			left: 0;
+			position: absolute;
+			top: 0;
+			width: 634px;
+			z-index: 1;
+		}
+
+		.trombone .end
+		{
+			background: url(img/trombone-end.png) no-repeat 0 0;
+			height: 334px;
+			position: absolute;
+			right: 0;
+			top: 0;
+			width: 282px;
+		}
+	</style>
+</head>
+<body>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		var soundIndex = 1;
+		var currentSound;
+		var directionChanged = false;
+		var increasing = false;
+		var oldWindowWidth;
+
+		function windowResized() {
+			windowWidth = $(window).width();
+			// console.log(windowWidth, oldWindowWidth);
+
+			if (windowWidth > oldWindowWidth) {
+				if (increasing) {
+					directionChanged = false;
+				} else {
+					directionChanged = true;
+					changeDirection();
+				}
+				
+				increasing = true;
+			} else if (windowWidth < oldWindowWidth) {
+				if (increasing) {
+					directionChanged = true;
+					changeDirection();
+				} else {
+					directionChanged = false;
+				}
+
+				increasing = false;
+			}
+
+			oldWindowWidth = windowWidth;
+		}
+
+		function changeDirection() {
+			// console.log('Sound triggered.')
+
+			currentSound = $('#sound' + soundIndex).get(0);
+			currentSound.play();
+
+			soundIndex = (soundIndex == 9) ? 1 : soundIndex + 1;
+		}
+
+		$(function () {
+			oldWindowWidth = $(window).width()
+
+			$(window).resize(function (e) {
+				windowResized();
+			});
+		});
+	</script>
+
+	<audio id='sound1' preload='auto' src='wav/1.wav' type='audio/wave'></audio>
+	<audio id='sound2' preload='auto' src='wav/2.wav' type='audio/wave'></audio>
+	<audio id='sound3' preload='auto' src='wav/3.wav' type='audio/wave'></audio>
+	<audio id='sound4' preload='auto' src='wav/4.wav' type='audio/wave'></audio>
+	<audio id='sound5' preload='auto' src='wav/5.wav' type='audio/wave'></audio>
+	<audio id='sound6' preload='auto' src='wav/6.wav' type='audio/wave'></audio>
+	<audio id='sound7' preload='auto' src='wav/7.wav' type='audio/wave'></audio>
+	<audio id='sound8' preload='auto' src='wav/8.wav' type='audio/wave'></audio>
+	<audio id='sound9' preload='auto' src='wav/9.wav' type='audio/wave'></audio>
+
+	<p class='instructions'>Would you kindly resize your browser window.</p>
+
+	<div class='trombone'>
+		<div class='start'></div>
+		<div class='end'></div>
+	</div>
+</body>
+</html>
